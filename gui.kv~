@@ -1,0 +1,221 @@
+#: import fm kivy.uix.screenmanager.FadeTransition
+#: import cl kivy.utils.get_color_from_hex
+#-*- coding.utf-8 -*-
+<MButton@Button>:
+    size_hint:1,None
+    height:30
+    background_color:cl("#82b4e8")
+<MSpinner@Spinner>:
+    size_hint:1,None
+    height:30
+<MLabel@Label>:
+    size_hint:1,None
+    height:30
+    multiline:False
+    text_size:self.size[0],30
+    halign:"left"
+    color:0.58,0.73,0.35,1
+
+<MToggleButton@ToggleButton>:
+    size_hint:1,None
+    background_color:cl("#82b4e8")
+    height:30
+<MScreenManager@ScreenManager>:
+    transition:fm()
+<MTextInput@TextInput>:
+    size_hint:1,None
+    height:30
+    multiline:False
+<CheckBox>:
+    canvas.before:
+        Clear:
+        Color:
+            rgb:cl("#000000")
+        Ellipse:
+            pos: self.center_x-8,self.center_y-8
+            size:16,16
+
+<StartWindow>:
+    canvas.before:
+        Rectangle:
+            size:self.size
+            pos:self.pos
+            source:"logo2.jpg"
+    BoxLayout:
+        orientation:"vertical"
+        padding:0
+        spacing:0
+        Label:
+            text:"[color=#3e77c5][size=80]K[/size][size=50]Y[/size][/color]"
+            markup:True
+        Label:
+            text:"[size=35][b][i][color=#d8d00d]Penetest[/color] [color=#541607]Tools[/color][/i][/b][/size]"
+            markup:True
+        Label:
+            text:"[size=35][i][b][color=#8b6214]Select A Interface[/color][/b][/i][/font]"
+            markup:True
+            size_hint:0.9,None
+            height:35
+        GridLayout:
+            cols:2
+            size_hint_x:1
+            canvas.before:
+                Color:
+                    rgb:cl("#1c191b")
+                Rectangle:
+                    pos:self.pos
+                    size:self.size
+            id:interfaces
+    BoxLayout:
+        orientation:"vertical"
+        MButton:
+            text:"Scan Hosts"
+            on_release:root.scan_hosts()
+<MWindow>:
+    iwin:inner_win
+    info:info
+    BoxLayout:
+        orientation:"vertical"
+        ActionBar:
+            pos_hint:{"top":1}
+            ActionView:
+                use_separator:True
+                ActionPrevious:
+                    title:"Ky Pentest Tools"
+                    with_previous:False
+                    on_release:app.sm.current=app.sm.previous()
+                    app_icon:"icon.png"
+                ActionOverflow:
+                ActionButton:
+                    text:"Stop Attack"
+                    on_release:inner_win.get_screen("mainwin").stop_attacks()
+                ActionGroup:
+                    text:"Spoof Tools"
+                    ActionButton:
+                        text:"Dhcp Shock"
+                        on_release:inner_win.children[0].dhcp_shock(self)
+                    ActionButton:
+                        text:"Arp Spoof"
+                        on_release:inner_win.get_screen("mainwin").arp_spoof()
+                    ActionButton:
+                        text:"Dhcp Starvation"
+                        on_release:inner_win.get_screen("mainwin").dhcp_star()
+                    ActionButton:
+                        text:"Mac Spoof"
+                        on_release:inner_win.get_screen("mainwin").mac_spoof()
+                    ActionButton:
+                        text:"Ping Of Death"
+                        on_release:inner_win.get_screen("mainwin").ping_death()
+                    ActionButton:
+                        text:"Dns Spoof"
+                        on_release:inner_win.get_screen("mainwin").dns_spoof()
+                    ActionButton:
+                        text:"TraceRoute"
+                        on_release:inner_win.get_screen("mainwin").set_destination()
+
+                ActionGroup:
+                    text:"Flood Tools"
+                    ActionButton:
+                        text:"Syn Flood"
+                        on_release:inner_win.get_screen("mainwin").syn_flood()
+                    ActionButton:
+                        text:"Mac Flood"
+                        on_release:inner_win.get_screen("mainwin").mac_flood()
+                    ActionButton:
+                        text:"Icmp Redirect"
+                        on_release:inner_win.get_screen("mainwin").icmp_redirect()
+                    ActionButton:
+                        text:"Sniffer"
+                        on_release:inner_win.get_screen("mainwin").snif()
+                    ActionButton:
+                        text:"Http Redirect"
+                        on_release:inner_win.get_screen("mainwin").go_http()
+
+                ActionGroup:
+                    text:"Application"
+                    ActionButton:
+                        text:"[size=15][color=#ffffff]Quit[/color][/size]"
+                        markup:True
+                        on_release:exit(0)
+                    ActionButton:
+                        text:"About"
+                        on_release:print("made by yahya")
+
+        BoxLayout:
+            orientation:"vertical"
+            size_hint:1,0.1
+            MLabel:
+                text:""
+                id:info
+                color:(1,0,0,1)
+                markup:True
+
+        MScreenManager:
+            canvas.before:
+                Color:
+                    rgb:cl("#F0FFFF")
+                Rectangle:
+                    size:self.size
+                    pos:self.pos
+            id:inner_win
+            info:info
+
+<MainWindow>:
+    disp:_container
+    scrol:_scrol
+    target:target
+    gateway:gateway
+    name:"mainwin"
+    id:mwin
+    BoxLayout:
+        orientation:"vertical"
+        padding:"1px"
+        BoxLayout:
+            size_hint:1,0.7
+            BoxLayout:
+                orientation:"vertical"
+                size_hint:0.5,1
+                MLabel:
+                    text:"Select Target"
+                MSpinner:
+                    id:target
+                    text:"Not Set"
+                MLabel:
+                    text:"Select Gateway"
+                MSpinner:
+                    text:"Not Set"
+                    id:gateway
+            ScrollView:
+                id:_scrol
+                size_hint:0.5,1
+                canvas.before:
+                    Color:
+                        rgb:cl("#2f2b2b")
+                    Rectangle:
+                        size:self.size
+                        pos:self.pos
+                BoxLayout:
+                    orientation:"vertical"
+                    id:_container
+                    size_hint:1,None
+
+        BoxLayout:
+            orientation:"vertical"
+            size_hint:1,0.3
+            MToggleButton:
+                text:"IP Forward Disabled"
+                on_release:root.ip_forward(self)
+            MButton:
+                text:"Arp Spoof"
+                on_release:root.arp_spoof()
+            MButton:
+                text:"Arp Cache Poison One Way"
+                on_release:root.arp_cache()
+            MButton:
+                text:"ReScan"
+                on_release:root.scan_hosts()
+
+
+
+
+

