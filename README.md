@@ -1,8 +1,13 @@
 # Mitm-Tool
+A man in the middle tool works on Ubuntu
+Some menus not implemented
+
 Requirements:
 
 +scapy
+
 +kivy
+
 +works on linux machines
 
 
